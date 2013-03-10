@@ -1,0 +1,23 @@
+{
+    "name": "ThauEx/SimpleHtmlDom",
+    "description": "Modified version of http://sourceforge.net/projects/simplehtmldom/ with cache support",
+    "version": "1.5",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "John Schlick",
+            "homepage": "http://john_schlick.users.sourceforge.net/",
+            "role": "Developer"
+        },
+        {
+            "name": "Thau",
+            "email": "thau.exodus@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "autoload": {
+        "psr-0": { "ThauEx\\SimpleHtmlDom\\SHD": "" }
+    }
+}
