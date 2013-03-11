@@ -1,5 +1,5 @@
 {
-    "name": "ThauEx/SimpleHtmlDom",
+    "name": "thauex/simple-html-dom",
     "description": "Modified version of http://sourceforge.net/projects/simplehtmldom/ with cache support",
     "version": "1.5",
     "license": "MIT",
