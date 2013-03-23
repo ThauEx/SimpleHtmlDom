@@ -198,7 +198,7 @@ class SimpleHtmlDom
         $this->lowercase = $lowercase;
         $this->defaultBrText = $defaultBRText;
         $this->defaultSpanText = $defaultSpanText;
-        $this->root = new simpleHtmlDomNode($this);
+        $this->root = new SimpleHtmlDomNode($this);
         $this->root->tag = 'root';
         $this->root->_[HDOM_INFO_BEGIN] = -1;
         $this->root->nodetype = HDOM_TYPE_ROOT;
@@ -215,7 +215,7 @@ class SimpleHtmlDom
         }
 
         // text
-        $node = new simpleHtmlDomNode($this);
+        $node = new SimpleHtmlDomNode($this);
         ++$this->cursor;
         $node->_[HDOM_INFO_TEXT] = $s;
         $this->linkNodes($node, false);
@@ -370,7 +370,7 @@ class SimpleHtmlDom
             return true;
         }
 
-        $node = new simpleHtmlDomNode($this);
+        $node = new SimpleHtmlDomNode($this);
         $node->_[HDOM_INFO_BEGIN] = $this->cursor;
         ++$this->cursor;
         $tag = $this->copyUntil($this->tokenSlash);
@@ -571,7 +571,7 @@ class SimpleHtmlDom
     // as a text node
     protected function asTextNode($tag)
     {
-        $node = new simpleHtmlDomNode($this);
+        $node = new SimpleHtmlDomNode($this);
         ++$this->cursor;
         $node->_[HDOM_INFO_TEXT] = '</' . $tag . '>';
         $this->linkNodes($node, false);

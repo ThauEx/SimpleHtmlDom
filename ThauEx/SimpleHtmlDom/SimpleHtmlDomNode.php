@@ -847,9 +847,6 @@ class SimpleHtmlDomNode
     function getElementsByTagName($name, $idx=null) {return $this->find($name, $idx);}
     function parentNode() {return $this->parent();}
     function childNodes($idx=-1) {return $this->children($idx);}
-    function firstChild() {return $this->firstChild();}
-    function lastChild() {return $this->lastChild();}
-    function nextSibling() {return $this->nextSibling();}
     function previousSibling() {return $this->prevSibling();}
     function hasChildNodes() {return $this->hasChild();}
     function nodeName() {return $this->tag;}

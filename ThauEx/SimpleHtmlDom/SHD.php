@@ -79,7 +79,7 @@ class SHD
         $contents = self::getContent($url, $useIncludePath, $context, $offset);
         // Paperg - use our own mechanism for getting the contents as we want to control the timeout.
         //$contents = retrieve_url_contents($url);
-        if (empty($contents) || strlen($contents) > MAX_FILE_SIZE)
+        if (empty($contents) || strlen($contents) > self::MAX_FILE_SIZE)
         {
             return false;
         }
@@ -112,10 +112,10 @@ class SHD
     }
 
     // get html dom from string
-    public static function strGetHtml($str, $lowercase=true, $forceTagsClosed=true, $targetCharset = DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT)
+    public static function strGetHtml($str, $lowercase=true, $forceTagsClosed=true, $targetCharset = self::DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=self::DEFAULT_BR_TEXT, $defaultSpanText=self::DEFAULT_SPAN_TEXT)
     {
         $dom = new simple_html_dom(null, $lowercase, $forceTagsClosed, $targetCharset, $stripRN, $defaultBRText, $defaultSpanText);
-        if (empty($str) || strlen($str) > MAX_FILE_SIZE)
+        if (empty($str) || strlen($str) > self::MAX_FILE_SIZE)
         {
             $dom->clear();
             return false;
