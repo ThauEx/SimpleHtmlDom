@@ -322,7 +322,7 @@ class SimpleHtmlDomNode
         if (isset($this->_[HDOM_INFO_INNER])) return $this->_[HDOM_INFO_INNER];
         switch ($this->nodetype)
         {
-            case HDOM_TYPE_TEXT: return $this->dom->restore_noise($this->_[HDOM_INFO_TEXT]);
+            case HDOM_TYPE_TEXT: return $this->dom->restoreNoise($this->_[HDOM_INFO_TEXT]);
             case HDOM_TYPE_COMMENT: return '';
             case HDOM_TYPE_UNKNOWN: return '';
         }
