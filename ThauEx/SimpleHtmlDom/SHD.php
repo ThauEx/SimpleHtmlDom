@@ -70,13 +70,13 @@ class SHD
     // -----------------------------------------------------------------------------
     // get html dom from file
     // $maxlen is defined in the code as PHP_STREAM_COPY_ALL which is defined as -1.
-    public static function fileGetHtml($url, $useIncludePath = false, $context=null, $offset = -1, $maxLen=-1, $lowercase = true, $forceTagsClosed=true, $targetCharset = DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT)
+    public static function fileGetHtml($url, $useIncludePath = false, $context=null, $offset = -1, $maxLen=-1, $lowercase = true, $forceTagsClosed=true, $targetCharset = DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT, $hours = 24)
     {
         // We DO force the tags to be terminated.
         $dom = new SimpleHtmlDom(null, $lowercase, $forceTagsClosed, $targetCharset, $stripRN, $defaultBRText, $defaultSpanText);
         // For sourceforge users: uncomment the next line and comment the retreive_url_contents line 2 lines down if it is not already done.
         #$contents = file_get_contents($url, $useIncludePath, $context, $offset);
-        $contents = self::getContent($url, $useIncludePath, $context, $offset);
+        $contents = self::getContent($url, $useIncludePath, $context, $offset, $hours);
         // Paperg - use our own mechanism for getting the contents as we want to control the timeout.
         //$contents = retrieve_url_contents($url);
         if (empty($contents) || strlen($contents) > self::MAX_FILE_SIZE)
