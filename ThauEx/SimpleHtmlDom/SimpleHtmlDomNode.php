@@ -248,7 +248,7 @@ class SimpleHtmlDomNode
     function innertext()
     {
         if (isset($this->_[SHD::HDOM_INFO_INNER])) return $this->_[SHD::HDOM_INFO_INNER];
-        if (isset($this->_[SHD::HDOM_INFO_TEXT])) return $this->dom->restore_noise($this->_[SHD::HDOM_INFO_TEXT]);
+        if (isset($this->_[SHD::HDOM_INFO_TEXT])) return $this->dom->restoreNoise($this->_[SHD::HDOM_INFO_TEXT]);
 
         $ret = '';
         foreach ($this->nodes as $n)
@@ -282,7 +282,7 @@ class SimpleHtmlDomNode
         }
 
         if (isset($this->_[SHD::HDOM_INFO_OUTER])) return $this->_[SHD::HDOM_INFO_OUTER];
-        if (isset($this->_[SHD::HDOM_INFO_TEXT])) return $this->dom->restore_noise($this->_[SHD::HDOM_INFO_TEXT]);
+        if (isset($this->_[SHD::HDOM_INFO_TEXT])) return $this->dom->restoreNoise($this->_[SHD::HDOM_INFO_TEXT]);
 
         // render begin tag
         if ($this->dom && $this->dom->nodes[$this->_[SHD::HDOM_INFO_BEGIN]])
@@ -363,7 +363,7 @@ class SimpleHtmlDomNode
     function makeup()
     {
         // text, comment, unknown
-        if (isset($this->_[SHD::HDOM_INFO_TEXT])) return $this->dom->restore_noise($this->_[SHD::HDOM_INFO_TEXT]);
+        if (isset($this->_[SHD::HDOM_INFO_TEXT])) return $this->dom->restoreNoise($this->_[SHD::HDOM_INFO_TEXT]);
 
         $ret = '<'.$this->tag;
         $i = -1;
@@ -390,7 +390,7 @@ class SimpleHtmlDomNode
                 $ret .= $key.$this->_[SHD::HDOM_INFO_SPACE][$i][1].'='.$this->_[SHD::HDOM_INFO_SPACE][$i][2].$quote.$val.$quote;
             }
         }
-        $ret = $this->dom->restore_noise($ret);
+        $ret = $this->dom->restoreNoise($ret);
         return $ret . $this->_[SHD::HDOM_INFO_ENDSPACE] . '>';
     }
 
