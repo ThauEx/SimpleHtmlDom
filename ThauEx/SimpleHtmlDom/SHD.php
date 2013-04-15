@@ -114,7 +114,7 @@ class SHD
     // get html dom from string
     public static function strGetHtml($str, $lowercase=true, $forceTagsClosed=true, $targetCharset = self::DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=self::DEFAULT_BR_TEXT, $defaultSpanText=self::DEFAULT_SPAN_TEXT)
     {
-        $dom = new simple_html_dom(null, $lowercase, $forceTagsClosed, $targetCharset, $stripRN, $defaultBRText, $defaultSpanText);
+        $dom = new SimpleHtmlDom(null, $lowercase, $forceTagsClosed, $targetCharset, $stripRN, $defaultBRText, $defaultSpanText);
         if (empty($str) || strlen($str) > self::MAX_FILE_SIZE)
         {
             $dom->clear();
