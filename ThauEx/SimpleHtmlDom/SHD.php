@@ -70,7 +70,7 @@ class SHD
     // -----------------------------------------------------------------------------
     // get html dom from file
     // $maxlen is defined in the code as PHP_STREAM_COPY_ALL which is defined as -1.
-    public static function fileGetHtml($url, $useIncludePath = false, $context=null, $offset = -1, $maxLen=-1, $lowercase = true, $forceTagsClosed=true, $targetCharset = DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT, $hours = 24)
+    public static function fileGetHtml($url, $useIncludePath = false, $context=null, $offset = -1, $maxLen=-1, $lowercase = true, $forceTagsClosed=true, $targetCharset =self::DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=self::DEFAULT_BR_TEXT, $defaultSpanText=self::DEFAULT_SPAN_TEXT, $hours = 24)
     {
         // We DO force the tags to be terminated.
         $dom = new SimpleHtmlDom(null, $lowercase, $forceTagsClosed, $targetCharset, $stripRN, $defaultBRText, $defaultSpanText);
@@ -114,7 +114,7 @@ class SHD
     // get html dom from string
     public static function strGetHtml($str, $lowercase=true, $forceTagsClosed=true, $targetCharset = self::DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=self::DEFAULT_BR_TEXT, $defaultSpanText=self::DEFAULT_SPAN_TEXT)
     {
-        $dom = new simple_html_dom(null, $lowercase, $forceTagsClosed, $targetCharset, $stripRN, $defaultBRText, $defaultSpanText);
+        $dom = new SimpleHtmlDom(null, $lowercase, $forceTagsClosed, $targetCharset, $stripRN, $defaultBRText, $defaultSpanText);
         if (empty($str) || strlen($str) > self::MAX_FILE_SIZE)
         {
             $dom->clear();

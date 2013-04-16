@@ -53,7 +53,7 @@ class SimpleHtmlDom
         'option'=>array('option'=>1),
     );
 
-    function __construct($str=null, $lowercase=true, $forceTagsClosed=true, $targetCharset=DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT)
+    function __construct($str=null, $lowercase=true, $forceTagsClosed=true, $targetCharset=SHD::DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=SHD::DEFAULT_BR_TEXT, $defaultSpanText=SHD::DEFAULT_SPAN_TEXT)
     {
         if ($str)
         {
@@ -79,7 +79,7 @@ class SimpleHtmlDom
     }
 
     // load html from string
-    function load($str, $lowercase=true, $stripRN=true, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT)
+    function load($str, $lowercase=true, $stripRN=true, $defaultBRText=SHD::DEFAULT_BR_TEXT, $defaultSpanText=SHD::DEFAULT_SPAN_TEXT)
     {
         global $debugObject;
 
@@ -107,7 +107,7 @@ class SimpleHtmlDom
         // parsing
         while ($this->parse());
         // end
-        $this->root->_[HDOM_INFO_END] = $this->cursor;
+        $this->root->_[SHD::HDOM_INFO_END] = $this->cursor;
         $this->parseCharset();
 
         // make load function chainable
@@ -172,7 +172,7 @@ class SimpleHtmlDom
     }
 
     // prepare HTML data and init everything
-    protected function prepare($str, $lowercase=true, $stripRN=true, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT)
+    protected function prepare($str, $lowercase=true, $stripRN=true, $defaultBRText=SHD::DEFAULT_BR_TEXT, $defaultSpanText=SHD::DEFAULT_SPAN_TEXT)
     {
         $this->clear();
 
@@ -200,8 +200,8 @@ class SimpleHtmlDom
         $this->defaultSpanText = $defaultSpanText;
         $this->root = new SimpleHtmlDomNode($this);
         $this->root->tag = 'root';
-        $this->root->_[HDOM_INFO_BEGIN] = -1;
-        $this->root->nodetype = HDOM_TYPE_ROOT;
+        $this->root->_[SHD::HDOM_INFO_BEGIN] = -1;
+        $this->root->nodetype = SHD::HDOM_TYPE_ROOT;
         $this->parent = $this->root;
         if ($this->size>0) $this->char = $this->doc[0];
     }
@@ -217,7 +217,7 @@ class SimpleHtmlDom
         // text
         $node = new SimpleHtmlDomNode($this);
         ++$this->cursor;
-        $node->_[HDOM_INFO_TEXT] = $s;
+        $node->_[SHD::HDOM_INFO_TEXT] = $s;
         $this->linkNodes($node, false);
         return true;
     }
@@ -300,7 +300,7 @@ class SimpleHtmlDom
     {
         if ($this->char!=='<')
         {
-            $this->root->_[HDOM_INFO_END] = $this->cursor;
+            $this->root->_[SHD::HDOM_INFO_END] = $this->cursor;
             return false;
         }
         $beginTagPos = $this->pos;
@@ -326,7 +326,7 @@ class SimpleHtmlDom
             {
                 if (isset($this->optionalClosingTags[$parentLower]) && isset($this->blockTags[$tagLower]))
                 {
-                    $this->parent->_[HDOM_INFO_END] = 0;
+                    $this->parent->_[SHD::HDOM_INFO_END] = 0;
                     $org_parent = $this->parent;
 
                     while (($this->parent->parent) && strtolower($this->parent->tag)!==$tagLower)
@@ -335,13 +335,13 @@ class SimpleHtmlDom
                     if (strtolower($this->parent->tag)!==$tagLower) {
                         $this->parent = $org_parent; // restore origonal parent
                         if ($this->parent->parent) $this->parent = $this->parent->parent;
-                        $this->parent->_[HDOM_INFO_END] = $this->cursor;
+                        $this->parent->_[SHD::HDOM_INFO_END] = $this->cursor;
                         return $this->asTextNode($tag);
                     }
                 }
                 else if (($this->parent->parent) && isset($this->blockTags[$tagLower]))
                 {
-                    $this->parent->_[HDOM_INFO_END] = 0;
+                    $this->parent->_[SHD::HDOM_INFO_END] = 0;
                     $org_parent = $this->parent;
 
                     while (($this->parent->parent) && strtolower($this->parent->tag)!==$tagLower)
@@ -350,20 +350,20 @@ class SimpleHtmlDom
                     if (strtolower($this->parent->tag)!==$tagLower)
                     {
                         $this->parent = $org_parent; // restore origonal parent
-                        $this->parent->_[HDOM_INFO_END] = $this->cursor;
+                        $this->parent->_[SHD::HDOM_INFO_END] = $this->cursor;
                         return $this->asTextNode($tag);
                     }
                 }
                 else if (($this->parent->parent) && strtolower($this->parent->parent->tag)===$tagLower)
                 {
-                    $this->parent->_[HDOM_INFO_END] = 0;
+                    $this->parent->_[SHD::HDOM_INFO_END] = 0;
                     $this->parent = $this->parent->parent;
                 }
                 else
                     return $this->asTextNode($tag);
             }
 
-            $this->parent->_[HDOM_INFO_END] = $this->cursor;
+            $this->parent->_[SHD::HDOM_INFO_END] = $this->cursor;
             if ($this->parent->parent) $this->parent = $this->parent->parent;
 
             $this->char = (++$this->pos<$this->size) ? $this->doc[$this->pos] : null; // next
@@ -371,23 +371,23 @@ class SimpleHtmlDom
         }
 
         $node = new SimpleHtmlDomNode($this);
-        $node->_[HDOM_INFO_BEGIN] = $this->cursor;
+        $node->_[SHD::HDOM_INFO_BEGIN] = $this->cursor;
         ++$this->cursor;
         $tag = $this->copyUntil($this->tokenSlash);
         $node->tag_start = $beginTagPos;
 
         // doctype, cdata & comments...
         if (isset($tag[0]) && $tag[0]==='!') {
-            $node->_[HDOM_INFO_TEXT] = '<' . $tag . $this->copyUntilChar('>');
+            $node->_[SHD::HDOM_INFO_TEXT] = '<' . $tag . $this->copyUntilChar('>');
 
             if (isset($tag[2]) && $tag[1]==='-' && $tag[2]==='-') {
-                $node->nodetype = HDOM_TYPE_COMMENT;
+                $node->nodetype = SHD::HDOM_TYPE_COMMENT;
                 $node->tag = 'comment';
             } else {
-                $node->nodetype = HDOM_TYPE_UNKNOWN;
+                $node->nodetype = SHD::HDOM_TYPE_UNKNOWN;
                 $node->tag = 'unknown';
             }
-            if ($this->char==='>') $node->_[HDOM_INFO_TEXT].='>';
+            if ($this->char==='>') $node->_[SHD::HDOM_INFO_TEXT].='>';
             $this->linkNodes($node, true);
             $this->char = (++$this->pos<$this->size) ? $this->doc[$this->pos] : null; // next
             return true;
@@ -396,27 +396,27 @@ class SimpleHtmlDom
         // text
         if ($pos=strpos($tag, '<')!==false) {
             $tag = '<' . substr($tag, 0, -1);
-            $node->_[HDOM_INFO_TEXT] = $tag;
+            $node->_[SHD::HDOM_INFO_TEXT] = $tag;
             $this->linkNodes($node, false);
             $this->char = $this->doc[--$this->pos]; // prev
             return true;
         }
 
         if (!preg_match("/^[\w-:]+$/", $tag)) {
-            $node->_[HDOM_INFO_TEXT] = '<' . $tag . $this->copyUntil('<>');
+            $node->_[SHD::HDOM_INFO_TEXT] = '<' . $tag . $this->copyUntil('<>');
             if ($this->char==='<') {
                 $this->linkNodes($node, false);
                 return true;
             }
 
-            if ($this->char==='>') $node->_[HDOM_INFO_TEXT].='>';
+            if ($this->char==='>') $node->_[SHD::HDOM_INFO_TEXT].='>';
             $this->linkNodes($node, false);
             $this->char = (++$this->pos<$this->size) ? $this->doc[$this->pos] : null; // next
             return true;
         }
 
         // begin tag
-        $node->nodetype = HDOM_TYPE_ELEMENT;
+        $node->nodetype = SHD::HDOM_TYPE_ELEMENT;
         $tagLower = strtolower($tag);
         $node->tag = ($this->lowercase) ? $tagLower : $tag;
 
@@ -425,7 +425,7 @@ class SimpleHtmlDom
         {
             while (isset($this->optionalClosingTags[$tagLower][strtolower($this->parent->tag)]))
             {
-                $this->parent->_[HDOM_INFO_END] = 0;
+                $this->parent->_[SHD::HDOM_INFO_END] = 0;
                 $this->parent = $this->parent->parent;
             }
             $node->parent = $this->parent;
@@ -451,9 +451,9 @@ class SimpleHtmlDom
 
             // handle endless '<'
             if ($this->pos>=$this->size-1 && $this->char!=='>') {
-                $node->nodetype = HDOM_TYPE_TEXT;
-                $node->_[HDOM_INFO_END] = 0;
-                $node->_[HDOM_INFO_TEXT] = '<'.$tag . $space[0] . $name;
+                $node->nodetype = SHD::HDOM_TYPE_TEXT;
+                $node->_[SHD::HDOM_INFO_END] = 0;
+                $node->_[SHD::HDOM_INFO_TEXT] = '<'.$tag . $space[0] . $name;
                 $node->tag = 'text';
                 $this->linkNodes($node, false);
                 return true;
@@ -461,11 +461,11 @@ class SimpleHtmlDom
 
             // handle mismatch '<'
             if ($this->doc[$this->pos-1]=='<') {
-                $node->nodetype = HDOM_TYPE_TEXT;
+                $node->nodetype = SHD::HDOM_TYPE_TEXT;
                 $node->tag = 'text';
                 $node->attr = array();
-                $node->_[HDOM_INFO_END] = 0;
-                $node->_[HDOM_INFO_TEXT] = substr($this->doc, $beginTagPos, $this->pos-$beginTagPos-1);
+                $node->_[SHD::HDOM_INFO_END] = 0;
+                $node->_[SHD::HDOM_INFO_TEXT] = substr($this->doc, $beginTagPos, $this->pos-$beginTagPos-1);
                 $this->pos -= 2;
                 $this->char = (++$this->pos<$this->size) ? $this->doc[$this->pos] : null; // next
                 $this->linkNodes($node, false);
@@ -482,11 +482,11 @@ class SimpleHtmlDom
                 }
                 else {
                     //no value attr: nowrap, checked selected...
-                    $node->_[HDOM_INFO_QUOTE][] = HDOM_QUOTE_NO;
+                    $node->_[SHD::HDOM_INFO_QUOTE][] = SHD::HDOM_QUOTE_NO;
                     $node->attr[$name] = true;
                     if ($this->char!='>') $this->char = $this->doc[--$this->pos]; // prev
                 }
-                $node->_[HDOM_INFO_SPACE][] = $space;
+                $node->_[SHD::HDOM_INFO_SPACE][] = $space;
                 $space = array($this->copySkip($this->tokenBlank), '', '');
             }
             else
@@ -494,13 +494,13 @@ class SimpleHtmlDom
         } while ($this->char!=='>' && $this->char!=='/');
 
         $this->linkNodes($node, true);
-        $node->_[HDOM_INFO_ENDSPACE] = $space[0];
+        $node->_[SHD::HDOM_INFO_ENDSPACE] = $space[0];
 
         // check self closing
         if ($this->copyUntilCharEscape('>')==='/')
         {
-            $node->_[HDOM_INFO_ENDSPACE] .= '/';
-            $node->_[HDOM_INFO_END] = 0;
+            $node->_[SHD::HDOM_INFO_ENDSPACE] .= '/';
+            $node->_[SHD::HDOM_INFO_END] = 0;
         }
         else
         {
@@ -514,7 +514,7 @@ class SimpleHtmlDom
         // since a br tag never has sub nodes, this works well.
         if ($node->tag == "br")
         {
-            $node->_[HDOM_INFO_INNER] = $this->defaultBrText;
+            $node->_[SHD::HDOM_INFO_INNER] = $this->defaultBrText;
         }
 
         return true;
@@ -533,19 +533,19 @@ class SimpleHtmlDom
         $space[2] = $this->copySkip($this->tokenBlank);
         switch ($this->char) {
             case '"':
-                $node->_[HDOM_INFO_QUOTE][] = HDOM_QUOTE_DOUBLE;
+                $node->_[SHD::HDOM_INFO_QUOTE][] = SHD::HDOM_QUOTE_DOUBLE;
                 $this->char = (++$this->pos<$this->size) ? $this->doc[$this->pos] : null; // next
                 $node->attr[$name] = $this->restoreNoise($this->copyUntilCharEscape('"'));
                 $this->char = (++$this->pos<$this->size) ? $this->doc[$this->pos] : null; // next
                 break;
             case '\'':
-                $node->_[HDOM_INFO_QUOTE][] = HDOM_QUOTE_SINGLE;
+                $node->_[SHD::HDOM_INFO_QUOTE][] = SHD::HDOM_QUOTE_SINGLE;
                 $this->char = (++$this->pos<$this->size) ? $this->doc[$this->pos] : null; // next
                 $node->attr[$name] = $this->restoreNoise($this->copyUntilCharEscape('\''));
                 $this->char = (++$this->pos<$this->size) ? $this->doc[$this->pos] : null; // next
                 break;
             default:
-                $node->_[HDOM_INFO_QUOTE][] = HDOM_QUOTE_NO;
+                $node->_[SHD::HDOM_INFO_QUOTE][] = SHD::HDOM_QUOTE_NO;
                 $node->attr[$name] = $this->restoreNoise($this->copyUntil($this->token_attr));
         }
         // PaperG: Attributes should not have \r or \n in them, that counts as html whitespace.
@@ -573,7 +573,7 @@ class SimpleHtmlDom
     {
         $node = new SimpleHtmlDomNode($this);
         ++$this->cursor;
-        $node->_[HDOM_INFO_TEXT] = '</' . $tag . '>';
+        $node->_[SHD::HDOM_INFO_TEXT] = '</' . $tag . '>';
         $this->linkNodes($node, false);
         $this->char = (++$this->pos<$this->size) ? $this->doc[$this->pos] : null; // next
         return true;
