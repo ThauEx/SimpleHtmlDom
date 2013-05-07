@@ -374,7 +374,7 @@ class SimpleHtmlDom
         $node->_[SHD::HDOM_INFO_BEGIN] = $this->cursor;
         ++$this->cursor;
         $tag = $this->copyUntil($this->tokenSlash);
-        $node->tag_start = $beginTagPos;
+        $node->tagStart = $beginTagPos;
 
         // doctype, cdata & comments...
         if (isset($tag[0]) && $tag[0]==='!') {
@@ -748,9 +748,9 @@ class SimpleHtmlDom
 
     // camel naming conventions
     function childNodes($idx=-1) {return $this->root->childNodes($idx);}
-    function firstChild() {return $this->root->first_child();}
-    function lastChild() {return $this->root->last_child();}
-    function createElement($name, $value=null) {return @str_get_html("<$name>$value</$name>")->first_child();}
+    function firstChild() {return $this->root->firstChild();}
+    function lastChild() {return $this->root->lastChild();}
+    function createElement($name, $value=null) {return @str_get_html("<$name>$value</$name>")->firstChild();}
     function createTextNode($value) {return @end(str_get_html($value)->nodes);}
     function getElementById($id) {return $this->find("#$id", 0);}
     function getElementsById($id, $idx=null) {return $this->find("#$id", $idx);}
