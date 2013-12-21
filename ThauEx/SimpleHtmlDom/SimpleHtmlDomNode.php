@@ -619,12 +619,14 @@ class SimpleHtmlDomNode
 		return $selectors;
 	}
 
-	function __get($name) {
+	function __get($name)
+	{
 		if (isset($this->attr[$name]))
 		{
 			return $this->convertText($this->attr[$name]);
 		}
-		switch ($name) {
+		switch ($name)
+		{
 			case 'outertext': return $this->outertext();
 			case 'innertext': return $this->innertext();
 			case 'plaintext': return $this->text();
@@ -633,22 +635,30 @@ class SimpleHtmlDomNode
 		}
 	}
 
-	function __set($name, $value) {
-		switch ($name) {
+	function __set($name, $value)
+	{
+		global $debugObject;
+		if (is_object($debugObject)) {$debugObject->debugLogEntry(1);}
+
+		switch ($name)
+		{
 			case 'outertext': return $this->_[SHD::HDOM_INFO_OUTER] = $value;
 			case 'innertext':
 				if (isset($this->_[SHD::HDOM_INFO_TEXT])) return $this->_[SHD::HDOM_INFO_TEXT] = $value;
 				return $this->_[SHD::HDOM_INFO_INNER] = $value;
 		}
-		if (!isset($this->attr[$name])) {
+		if (!isset($this->attr[$name]))
+		{
 			$this->_[SHD::HDOM_INFO_SPACE][] = array(' ', '', '');
 			$this->_[SHD::HDOM_INFO_QUOTE][] = SHD::HDOM_QUOTE_DOUBLE;
 		}
 		$this->attr[$name] = $value;
 	}
 
-	function __isset($name) {
-		switch ($name) {
+	function __isset($name)
+	{
+		switch ($name)
+		{
 			case 'outertext': return true;
 			case 'innertext': return true;
 			case 'plaintext': return true;
