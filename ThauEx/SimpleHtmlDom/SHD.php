@@ -4,9 +4,9 @@ namespace ThauEx\SimpleHtmlDom;
  * Website: http://sourceforge.net/projects/simplehtmldom/
  * Acknowledge: Jose Solorzano (https://sourceforge.net/projects/php-html/)
  * Contributions by:
- *     Yousuke Kumakura (Attribute filters)
- *     Vadim Voituk (Negative indexes supports of "find" method)
- *     Antcs (Constructor with automatically load contents either text or file/url)
+ *	 Yousuke Kumakura (Attribute filters)
+ *	 Vadim Voituk (Negative indexes supports of "find" method)
+ *	 Antcs (Constructor with automatically load contents either text or file/url)
  *
  * all affected sections have comments starting with "PaperG"
  *
@@ -34,100 +34,100 @@ namespace ThauEx\SimpleHtmlDom;
  * @author S.C. Chen <me578022@gmail.com>
  * @author John Schlick
  * @author Rus Carroll
- * @version 1.5 ($Rev: 196 $)
+ * @version 1.5 ($Rev: 198 $)
  * @package PlaceLocalInclude
  * @subpackage simple_html_dom
  */
 class SHD
 {
-    /**
-     * All of the Defines for the classes below.
-     * @author S.C. Chen <me578022@gmail.com>
-     */
-    const HDOM_TYPE_ELEMENT         = 1;
-    const HDOM_TYPE_COMMENT         = 2;
-    const HDOM_TYPE_TEXT            = 3;
-    const HDOM_TYPE_ENDTAG          = 4;
-    const HDOM_TYPE_ROOT            = 5;
-    const HDOM_TYPE_UNKNOWN         = 6;
-    const HDOM_QUOTE_DOUBLE         = 0;
-    const HDOM_QUOTE_SINGLE         = 1;
-    const HDOM_QUOTE_NO             = 3;
-    const HDOM_INFO_BEGIN           = 0;
-    const HDOM_INFO_END             = 1;
-    const HDOM_INFO_QUOTE           = 2;
-    const HDOM_INFO_SPACE           = 3;
-    const HDOM_INFO_TEXT            = 4;
-    const HDOM_INFO_INNER           = 5;
-    const HDOM_INFO_OUTER           = 6;
-    const HDOM_INFO_ENDSPACE        = 7;
-    const DEFAULT_TARGET_CHARSET    = 'UTF-8';
-    const DEFAULT_BR_TEXT           = "\r\n";
-    const DEFAULT_SPAN_TEXT         = " ";
-    const MAX_FILE_SIZE             = 600000;
-    public static $fileCacheDir     = 'cache';
-    // helper functions
-    // -----------------------------------------------------------------------------
-    // get html dom from file
-    // $maxlen is defined in the code as PHP_STREAM_COPY_ALL which is defined as -1.
-    public static function fileGetHtml($url, $useIncludePath = false, $context=null, $offset = -1, $maxLen=-1, $lowercase = true, $forceTagsClosed=true, $targetCharset =self::DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=self::DEFAULT_BR_TEXT, $defaultSpanText=self::DEFAULT_SPAN_TEXT, $hours = 24)
-    {
-        // We DO force the tags to be terminated.
-        $dom = new SimpleHtmlDom(null, $lowercase, $forceTagsClosed, $targetCharset, $stripRN, $defaultBRText, $defaultSpanText);
-        // For sourceforge users: uncomment the next line and comment the retreive_url_contents line 2 lines down if it is not already done.
-        #$contents = file_get_contents($url, $useIncludePath, $context, $offset);
-        $contents = self::getContent($url, $useIncludePath, $context, $offset, $hours);
-        // Paperg - use our own mechanism for getting the contents as we want to control the timeout.
-        //$contents = retrieve_url_contents($url);
-        if (empty($contents) || strlen($contents) > self::MAX_FILE_SIZE)
-        {
-            return false;
-        }
-        // The second parameter can force the selectors to all be lowercase.
-        $dom->load($contents, $lowercase, $stripRN);
-        return $dom;
-    }
+	/**
+	 * All of the Defines for the classes below.
+	 * @author S.C. Chen <me578022@gmail.com>
+	 */
+	const HDOM_TYPE_ELEMENT         = 1;
+	const HDOM_TYPE_COMMENT         = 2;
+	const HDOM_TYPE_TEXT            = 3;
+	const HDOM_TYPE_ENDTAG          = 4;
+	const HDOM_TYPE_ROOT            = 5;
+	const HDOM_TYPE_UNKNOWN         = 6;
+	const HDOM_QUOTE_DOUBLE         = 0;
+	const HDOM_QUOTE_SINGLE         = 1;
+	const HDOM_QUOTE_NO             = 3;
+	const HDOM_INFO_BEGIN           = 0;
+	const HDOM_INFO_END             = 1;
+	const HDOM_INFO_QUOTE           = 2;
+	const HDOM_INFO_SPACE           = 3;
+	const HDOM_INFO_TEXT            = 4;
+	const HDOM_INFO_INNER           = 5;
+	const HDOM_INFO_OUTER           = 6;
+	const HDOM_INFO_ENDSPACE        = 7;
+	const DEFAULT_TARGET_CHARSET    = 'UTF-8';
+	const DEFAULT_BR_TEXT           = "\r\n";
+	const DEFAULT_SPAN_TEXT         = " ";
+	const MAX_FILE_SIZE             = 600000;
+	public static $fileCacheDir     = 'cache';
+	// helper functions
+	// -----------------------------------------------------------------------------
+	// get html dom from file
+	// $maxlen is defined in the code as PHP_STREAM_COPY_ALL which is defined as -1.
+	public static function fileGetHtml($url, $useIncludePath = false, $context=null, $offset = -1, $maxLen=-1, $lowercase = true, $forceTagsClosed=true, $targetCharset =self::DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=self::DEFAULT_BR_TEXT, $defaultSpanText=self::DEFAULT_SPAN_TEXT, $hours = 24)
+	{
+		// We DO force the tags to be terminated.
+		$dom = new SimpleHtmlDom(null, $lowercase, $forceTagsClosed, $targetCharset, $stripRN, $defaultBRText, $defaultSpanText);
+		// For sourceforge users: uncomment the next line and comment the retreive_url_contents line 2 lines down if it is not already done.
+		#$contents = file_get_contents($url, $useIncludePath, $context, $offset);
+		$contents = self::getContent($url, $useIncludePath, $context, $offset, $hours);
+		// Paperg - use our own mechanism for getting the contents as we want to control the timeout.
+		//$contents = retrieve_url_contents($url);
+		if (empty($contents) || strlen($contents) > self::MAX_FILE_SIZE)
+		{
+			return false;
+		}
+		// The second parameter can force the selectors to all be lowercase.
+		$dom->load($contents, $lowercase, $stripRN);
+		return $dom;
+	}
 
-    public static function getContent($url, $useIncludePath = false, $context=null, $offset = -1, $hours = 24)
-    {
-        $file = self::$fileCacheDir . DIRECTORY_SEPARATOR . md5($url);
+	public static function getContent($url, $useIncludePath = false, $context=null, $offset = -1, $hours = 24)
+	{
+		$file = self::$fileCacheDir . DIRECTORY_SEPARATOR . md5($url);
 
-        if(file_exists($file))
-        {
-            $currentTime = time();
-            $expireTime = $hours * 60 * 60;
-            $file_time = filemtime($file);
+		if(file_exists($file))
+		{
+			$currentTime = time();
+			$expireTime = $hours * 60 * 60;
+			$file_time = filemtime($file);
 
-            if ($currentTime - $expireTime < $file_time)
-            {
-                return file_get_contents($file);
-            }
-        }
+			if ($currentTime - $expireTime < $file_time)
+			{
+				return file_get_contents($file);
+			}
+		}
 
-        $content = file_get_contents($url, $useIncludePath, $context, $offset);
-        $content .= '<!-- cached: ' . time() . ' -->';
-        file_put_contents($file, $content);
+		$content = file_get_contents($url, $useIncludePath, $context, $offset);
+		$content .= '<!-- cached: ' . time() . ' -->';
+		file_put_contents($file, $content);
 
-        return $content;
-    }
+		return $content;
+	}
 
-    // get html dom from string
-    public static function strGetHtml($str, $lowercase=true, $forceTagsClosed=true, $targetCharset = self::DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=self::DEFAULT_BR_TEXT, $defaultSpanText=self::DEFAULT_SPAN_TEXT)
-    {
-        $dom = new SimpleHtmlDom(null, $lowercase, $forceTagsClosed, $targetCharset, $stripRN, $defaultBRText, $defaultSpanText);
-        if (empty($str) || strlen($str) > self::MAX_FILE_SIZE)
-        {
-            $dom->clear();
-            return false;
-        }
-        $dom->load($str, $lowercase, $stripRN);
-        return $dom;
-    }
+	// get html dom from string
+	public static function strGetHtml($str, $lowercase=true, $forceTagsClosed=true, $targetCharset = self::DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=self::DEFAULT_BR_TEXT, $defaultSpanText=self::DEFAULT_SPAN_TEXT)
+	{
+		$dom = new SimpleHtmlDom(null, $lowercase, $forceTagsClosed, $targetCharset, $stripRN, $defaultBRText, $defaultSpanText);
+		if (empty($str) || strlen($str) > self::MAX_FILE_SIZE)
+		{
+			$dom->clear();
+			return false;
+		}
+		$dom->load($str, $lowercase, $stripRN);
+		return $dom;
+	}
 
-    // dump html dom tree
-    public static function dumpHtmlTree($node, $showAttr=true, $deep=0)
-    {
-        $node->dump($node);
-    }
+	// dump html dom tree
+	public static function dumpHtmlTree($node, $showAttr=true, $deep=0)
+	{
+		$node->dump($node);
+	}
 }
 
