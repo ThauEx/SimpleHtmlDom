@@ -85,10 +85,10 @@ class SimpleHtmlDom
 
 		// prepare
 		$this->prepare($str, $lowercase, $stripRN, $defaultBRText, $defaultSpanText);
-		// strip out comments
-		$this->removeNoise("'<!--(.*?)-->'is");
 		// strip out cdata
 		$this->removeNoise("'<!\[CDATA\[(.*?)\]\]>'is", true);
+		// strip out comments
+		$this->removeNoise("'<!--(.*?)-->'is");
 		// Per sourceforge http://sourceforge.net/tracker/?func=detail&aid=2949097&group_id=218559&atid=1044037
 		// Script tags removal now preceeds style tag removal.
 		// strip out <script> tags
