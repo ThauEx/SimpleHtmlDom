@@ -66,6 +66,7 @@ class SHD
 	const DEFAULT_SPAN_TEXT         = " ";
 	const MAX_FILE_SIZE             = 600000;
 	public static $fileCacheDir     = 'cache';
+	public static $cacheForever     = false;
 	// helper functions
 	// -----------------------------------------------------------------------------
 	// get html dom from file
@@ -98,7 +99,7 @@ class SHD
 			$expireTime = $hours * 60 * 60;
 			$file_time = filemtime($file);
 
-			if ($currentTime - $expireTime < $file_time)
+			if ($currentTime - $expireTime < $file_time or self::$cacheForever)
 			{
 				return file_get_contents($file);
 			}
